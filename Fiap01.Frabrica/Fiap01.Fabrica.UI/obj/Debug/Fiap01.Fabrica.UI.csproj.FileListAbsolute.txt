@@ -1,0 +1,7 @@
+C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Frabrica\Fiap01.Fabrica.UI\bin\Debug\Fiap01.Fabrica.UI.exe.config
+C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Frabrica\Fiap01.Fabrica.UI\bin\Debug\Fiap01.Fabrica.UI.exe
+C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Frabrica\Fiap01.Fabrica.UI\bin\Debug\Fiap01.Fabrica.UI.pdb
+C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Frabrica\Fiap01.Fabrica.UI\obj\Debug\Fiap01.Fabrica.UI.csprojAssemblyReference.cache
+C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Frabrica\Fiap01.Fabrica.UI\obj\Debug\Fiap01.Fabrica.UI.csproj.CoreCompileInputs.cache
+C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Frabrica\Fiap01.Fabrica.UI\obj\Debug\Fiap01.Fabrica.UI.exe
+C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Frabrica\Fiap01.Fabrica.UI\obj\Debug\Fiap01.Fabrica.UI.pdb
