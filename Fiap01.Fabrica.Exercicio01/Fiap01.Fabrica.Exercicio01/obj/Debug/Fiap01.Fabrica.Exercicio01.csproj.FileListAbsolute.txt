@@ -1,7 +1,0 @@
-C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Fabrica.Exercicio01\Fiap01.Fabrica.Exercicio01\bin\Debug\Fiap01.Fabrica.Exercicio01.exe.config
-C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Fabrica.Exercicio01\Fiap01.Fabrica.Exercicio01\bin\Debug\Fiap01.Fabrica.Exercicio01.exe
-C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Fabrica.Exercicio01\Fiap01.Fabrica.Exercicio01\bin\Debug\Fiap01.Fabrica.Exercicio01.pdb
-C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Fabrica.Exercicio01\Fiap01.Fabrica.Exercicio01\obj\Debug\Fiap01.Fabrica.Exercicio01.csprojAssemblyReference.cache
-C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Fabrica.Exercicio01\Fiap01.Fabrica.Exercicio01\obj\Debug\Fiap01.Fabrica.Exercicio01.csproj.CoreCompileInputs.cache
-C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Fabrica.Exercicio01\Fiap01.Fabrica.Exercicio01\obj\Debug\Fiap01.Fabrica.Exercicio01.exe
-C:\Users\logonrmlocal\Desktop\_fabrica\projects\01\Fiap01.Fabrica.Exercicio01\Fiap01.Fabrica.Exercicio01\obj\Debug\Fiap01.Fabrica.Exercicio01.pdb
