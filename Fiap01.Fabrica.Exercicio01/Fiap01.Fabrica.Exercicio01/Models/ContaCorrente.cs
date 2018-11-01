@@ -12,11 +12,7 @@ namespace Fiap01.Fabrica.Exercicio01.Models
     {
         public TipoConta Tipo { get; set; }
 
-        public override void Depositar(decimal valor)
-        {
-            Console.WriteLine("Deposita na conta corrente");
-            Saldo += valor;
-        }
+       
 
         public override void Retirar(decimal valor)
         {

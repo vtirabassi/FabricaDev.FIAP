@@ -22,17 +22,11 @@ namespace Fiap01.Fabrica.Exercicio01.Models
             _rendimento = valor;
         }
 
-
-        public override void Depositar(decimal valor)
-        {
-            Console.WriteLine("Deposita na conta poupança");
-            Saldo += valor;
-        }
-
+    
         public override void Retirar(decimal valor)
         {
             Console.WriteLine("Retira da conta poupança");
-            if (Saldo > 0)
+            if (Saldo-(valor+Taxa) >= 0)
             {
                 Saldo = Saldo - (valor + Taxa);
                 Console.WriteLine("Seu saldo é {0}", Saldo);

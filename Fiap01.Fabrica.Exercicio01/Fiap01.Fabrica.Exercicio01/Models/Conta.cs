@@ -13,8 +13,12 @@ namespace Fiap01.Fabrica.Exercicio01.Models
         public int Numero { get; set; }
         public decimal Saldo { get; set; }
 
-        public abstract void Depositar(decimal valor);
-
         public abstract void Retirar(decimal valor);
+
+        public virtual void Depositar(decimal valor)
+        {
+            Console.WriteLine("Deposita na conta");
+            Saldo += valor;
+        }
     }
 }

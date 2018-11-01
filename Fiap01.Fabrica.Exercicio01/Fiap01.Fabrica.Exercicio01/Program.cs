@@ -1,4 +1,5 @@
-﻿using Fiap01.Fabrica.Exercicio01.Models;
+﻿using Fiap01.Fabrica.Exercicio01.Exception;
+using Fiap01.Fabrica.Exercicio01.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,21 +17,27 @@ namespace Fiap01.Fabrica.Exercicio01
                 Agencia = 2,
                 DataAbertura = DateTime.Now,
                 Numero = 5,
-                Saldo = 10000,
+                Saldo = 200,
                 Tipo = TipoConta.Especial
             };
 
-            ContaPoupanca cPoupanca = new ContaPoupanca(100)
+            ContaPoupanca cPoupanca = new ContaPoupanca(0.05m)
             {
                 Agencia = 2,
-                DataAbertura = DateTime.Now,
+                DataAbertura = new DateTime(2010, 10, 20),
                 Numero = 5,
-                Saldo = 10000,
-                Taxa = 5
+                Saldo = 200,
+                Taxa = 5,
             };
 
-            cCorrente.Retirar(100);
-            cPoupanca.Retirar(100);
+            try
+            {
+                cCorrente.Retirar(200);
+            }
+            catch (DiversasException e)
+            {
+                Console.WriteLine(e);
+            }
 
             Console.Read();
         }
