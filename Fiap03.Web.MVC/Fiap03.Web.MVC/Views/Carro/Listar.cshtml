@@ -1,0 +1,50 @@
+﻿@model IList<Fiap03.Web.MVC.Models.CarroModel>
+
+@{
+    ViewBag.Title = "ListarCarros";
+}
+
+<h2>ListarCarros</h2>
+
+@Fabrica.Mensagem(TempData["msg"])
+
+<!--Comentario HTML-->
+
+@* Comentario C# *@
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Marca</th>
+            <th>Combustivel</th>
+            <th>Ano</th>
+            <th>Esportivo</th>
+            <th>Placa</th>
+            <th>Descricao</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Marca</td>
+                <td>@item.Combustivel</td>
+                <td>@item.Ano</td>
+                @if (item.Esportivo == true)
+                {
+                    <td>Sim</td>
+                }
+                else
+                {
+                    <td>Não</td>
+                }
+                <td>@item.Placa</td>
+                <td>@item.Descricao</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.ActionLink("Cadastrar", "Cadastrar")
+
+

@@ -1,0 +1,43 @@
+﻿@model Fiap03.Web.MVC.Models.CarroModel
+
+@{
+    /**/
+
+    ViewBag.Title = "Cadastrar";
+}
+
+<h2>Cadastrar</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(c => c.Marca)
+        @Html.DropDownListFor(c => c.Marca, 
+            ViewBag.marcas as SelectList,
+            "Selecione",
+            new { @class = "form-control"})
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Combustivel)
+        @Html.EnumDropDownListFor(c => c.Combustivel, "Selecione", new { @class = "form-control"})
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Ano)
+        @Html.TextBoxFor(c => c.Ano, new { @class = "form-control", placeholder = "Digite o ano"})
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Esportivo)
+        @Html.CheckBoxFor(c => c.Esportivo)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Placa)
+        @Html.TextBoxFor(c => c.Placa, new { placeholder = "Digite a placa", @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Descricao)
+        @Html.TextAreaFor(c => c.Descricao, new {@class= "form-control"})
+    </div>
+
+    @Fabrica.Botao("Cadastrar")
+    <a href="/Home/Index" class="btn btn-default">Cancelar</a>
+}
