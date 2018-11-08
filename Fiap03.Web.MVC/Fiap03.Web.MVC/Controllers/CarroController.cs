@@ -1,6 +1,10 @@
-﻿using Fiap03.Web.MVC.Models;
+﻿using Dapper;
+using Fiap03.Web.MVC.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,7 +14,6 @@ namespace Fiap03.Web.MVC.Controllers
     public class CarroController : Controller
     {
         //simula o BD
-        private static IList<CarroModel> _carros = new List<CarroModel>();
         private static IList<string> _marcasCarros = new List<string>() {
             "Hyndai",
             "FIAT",
@@ -29,15 +32,27 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Cadastrar(CarroModel carro)
         {
-            _carros.Add(carro);
-            TempData["msg"] = "Carro registrado";
-            return RedirectToAction("Listar");
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
+            {
+                string sql = "INSERT INTO Carro VALUES (@Marca, @Ano, @Esportivo, @Placa, @Descricao, @Combustivel); SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                int id = db.Query<int>(sql, carro).Single();
+
+                TempData["msg"] = "Carro registrado";
+                return RedirectToAction("Listar");
+            }
         }
 
         [HttpGet]
         public ActionResult Listar()
         {
-            return View(_carros);
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
+            {
+                string sql = "SELECT * FROM Carro";
+
+                var carros = db.Query<CarroModel>(sql).ToList();
+                    return View(carros);
+            }
         }
     }
 }
