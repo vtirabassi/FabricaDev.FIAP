@@ -1,0 +1,46 @@
+﻿@model Fiap03.Web.MVC.Models.CarroModel
+
+<div class="modal fade" id="modalEditar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Editar Registro</h4>
+            </div>
+            @using (Html.BeginForm())
+            {
+                <div class="form-group">
+                    @Html.LabelFor(c => c.Marca)
+                    @Html.DropDownListFor(c => c.Marca,
+                         ViewBag.marcas as SelectList,
+                         "Selecione",
+                         new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(c => c.Combustivel)
+                    @Html.EnumDropDownListFor(c => c.Combustivel, "Selecione", new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(c => c.Ano)
+                    @Html.TextBoxFor(c => c.Ano, new { @class = "form-control", placeholder = "Digite o ano" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(c => c.Esportivo)
+                    @Html.CheckBoxFor(c => c.Esportivo)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(c => c.Placa)
+                    @Html.TextBoxFor(c => c.Placa, new { placeholder = "Digite a placa", @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(c => c.Descricao)
+                    @Html.TextAreaFor(c => c.Descricao, new { @class = "form-control" })
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" id="confEditar">Editar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

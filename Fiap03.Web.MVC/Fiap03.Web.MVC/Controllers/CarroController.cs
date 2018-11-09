@@ -46,12 +46,52 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public ActionResult Listar()
         {
+            ViewBag.marcas = new SelectList(_marcasCarros);
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
                 string sql = "SELECT * FROM Carro";
 
                 var carros = db.Query<CarroModel>(sql).ToList();
-                    return View(carros);
+                return View(carros);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Excluir(int codigo)
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
+            {
+                string sql = "DELETE FROM Carro WHERE Id = @Id";
+
+                var deletado = db.Execute(sql, new { Id = codigo });
+
+                TempData["msgApagar"] = "Carro excluido";
+                return RedirectToAction("Listar");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ListarCarro(int codigo)
+        {
+            ViewBag.marcas = new SelectList(_marcasCarros);
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
+            {
+                string sql = "SELECT * FROM Carro WHERE Id = @Id";
+
+                var carros = db.Query<CarroModel>(sql, new { Id = codigo });
+                return Json(carros, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Buscar(int ano)
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
+            {
+                string sql = "SELECT * FROM Carro WHERE Ano = @Ano OR 0 = @Ano";
+
+                var carros = db.Query<CarroModel>(sql, new { Ano = ano }).ToList();
+                return View("Listar", carros);
             }
         }
     }

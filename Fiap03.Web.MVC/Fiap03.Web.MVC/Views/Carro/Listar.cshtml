@@ -6,11 +6,31 @@
 
 <h2>ListarCarros</h2>
 
+@Fabrica.Mensagem(TempData["msgApagar"])
 @Fabrica.Mensagem(TempData["msg"])
 
 <!--Comentario HTML-->
-
 @* Comentario C# *@
+
+@using (Html.BeginForm("Buscar", "Carro", FormMethod.Get))
+{
+    <div class="form-group row">
+        @Html.Label("Pesquisa")
+        <div class="col">
+            <select name="ano" class="form-control">
+                <option value="0">Selecione</option>
+                @for (var i = 1950; i <= (DateTime.Now.Year + 2); i++)
+                {
+                    <option>@i</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+
+            <button type="submit" class="btn btn-outline-info">Buscar</button>
+        </div>
+    </div>
+}
 
 <table class="table">
     <thead>
@@ -21,6 +41,8 @@
             <th>Esportivo</th>
             <th>Placa</th>
             <th>Descricao</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -40,11 +62,50 @@
                 }
                 <td>@item.Placa</td>
                 <td>@item.Descricao</td>
+                <!-- Button trigger modal -->
+                <td>
+                    <button data-codigo="@item.Id" data-id="editarCarro" type="button" class="btn btn-outline-warning" data-toggle="modal">
+                        Editar
+                    </button>
+                </td>
+                <td>
+                    <button onclick="codigoExcluir.value = @item.Id" type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#modalExcluir">
+                        Excluir
+                    </button>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
 @Html.ActionLink("Cadastrar", "Cadastrar")
+
+<!-- Modal Excluir -->
+<div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Excluir</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Deseja realmente excluir?
+            </div>
+            <div class="modal-footer">
+                <!--Formulario-->
+                @using (Html.BeginForm("Excluir", "Carro"))
+                {
+                    <input type="hidden" name="codigo" id="codigoExcluir" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Excluir</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 

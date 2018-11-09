@@ -107,6 +107,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Code\Fabrica.cshtml" />
+    <Content Include="Scripts\carro\carro.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -153,6 +154,7 @@
     </Compile>
     <Compile Include="Models\CarroModel.cs" />
     <Compile Include="Models\Combustivel.cs" />
+    <Compile Include="Models\MarcaModel.cs" />
     <Compile Include="MOD\CarroMOD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -173,6 +175,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Carro\_EditarPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
