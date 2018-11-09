@@ -6,7 +6,7 @@
         url: `/Carro/ListarCarro?codigo=${id}`,
         success: function (data)
         {
-            $("main").append(data);
+            $("body").append(data);
             $("#modalEditar").modal('show');
             alert(data);
         },

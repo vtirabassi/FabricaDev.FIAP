@@ -71,15 +71,16 @@ namespace Fiap03.Web.MVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult ListarCarro(int codigo)
+        public PartialViewResult ListarCarro(int codigo)
         {
             ViewBag.marcas = new SelectList(_marcasCarros);
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
                 string sql = "SELECT * FROM Carro WHERE Id = @Id";
 
-                var carros = db.Query<CarroModel>(sql, new { Id = codigo });
-                return Json(carros, JsonRequestBehavior.AllowGet);
+                var carro = db.Query<CarroModel>(sql, new { Id = codigo }).FirstOrDefault();
+                //return Json(carros, JsonRequestBehavior.AllowGet);
+                return PartialView("_EditarPartial", carro);
             }
         }
 
