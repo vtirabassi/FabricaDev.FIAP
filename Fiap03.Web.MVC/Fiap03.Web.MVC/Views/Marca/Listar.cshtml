@@ -1,0 +1,91 @@
+﻿@model IList<Fiap03.Web.MVC.Models.MarcaModel>
+
+@{
+    ViewBag.Title = "ListarCarros";
+}
+
+<h2>Listar Marcas</h2>
+
+@Fabrica.Mensagem(TempData["msgApagar"])
+@Fabrica.Mensagem(TempData["msg"])
+
+<!--Comentario HTML-->
+@* Comentario C# *@
+
+@*@using (Html.BeginForm("Buscar", "Marca", FormMethod.Get))
+{
+    <div class="form-group row">
+        @Html.Label("Pesquisa")
+        <div class="col">
+            <input type="text" class="form-control" name="cnpj" placeholder="CNPJ">
+        </div>
+        <div class="col">
+
+            <button type="submit" class="btn btn-outline-info">Buscar</button>
+        </div>
+    </div>
+}*@
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>CNPJ</th>
+            <th>Data de Criação</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nome</td>
+                <td>@item.Cnpj</td>
+                <td>@item.DataCriacao</td>
+                <td>
+                    <button data-codigo="@item.Id" data-id="editarMarca" type="button" class="btn btn-outline-warning" data-toggle="modal">
+                        Editar
+                    </button>
+                </td>
+                <td>
+                    <button onclick="codigoExcluir.value = @item.Id" type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#modalExcluir">
+                        Excluir
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.ActionLink("Cadastrar", "Cadastrar")
+
+<!-- Modal Excluir -->
+<div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Excluir</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Deseja realmente excluir?
+            </div>
+            <div class="modal-footer">
+                <!--Formulario-->
+                @using (Html.BeginForm("Excluir", "Marca"))
+                {
+                    <input type="hidden" name="codigo" id="codigoExcluir" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Excluir</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

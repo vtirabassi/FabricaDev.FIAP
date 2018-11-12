@@ -11,34 +11,24 @@ using System.Web.Mvc;
 
 namespace Fiap03.Web.MVC.Controllers
 {
-    public class CarroController : Controller
+    public class MarcaController : Controller
     {
-        //simula o BD
-        private static IList<string> _marcasCarros = new List<string>() {
-            "Hyndai",
-            "FIAT",
-            "Toyota",
-            "Honda",
-            "Jeep"
-        };
-
         [HttpGet]
         public ActionResult Cadastrar()
         {
-            ViewBag.marcas = new SelectList(_marcasCarros);
             return View();
         }
 
         [HttpPost]
-        public ActionResult Cadastrar(CarroModel carro)
+        public ActionResult Cadastrar(MarcaModel marca)
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = "INSERT INTO Carro VALUES (@Marca, @Ano, @Esportivo, @Placa, @Descricao, @Combustivel); SELECT CAST(SCOPE_IDENTITY() as int)";
+                string sql = "INSERT INTO Marca VALUES (@Nome, @Cnpj, @DataCriacao); SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                int id = db.Query<int>(sql, carro).Single();
+                int id = db.Query<int>(sql, marca).Single();
 
-                TempData["msg"] = "Carro registrado";
+                TempData["msg"] = "Marca criada";
                 return RedirectToAction("Listar");
             }
         }
@@ -46,13 +36,12 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public ActionResult Listar()
         {
-            ViewBag.marcas = new SelectList(_marcasCarros);
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = "SELECT * FROM Carro";
+                string sql = "SELECT * FROM Marca";
 
-                var carros = db.Query<CarroModel>(sql).ToList();
-                return View(carros);
+                var marcas = db.Query<MarcaModel>(sql).ToList();
+                return View(marcas);
             }
         }
 
@@ -61,7 +50,7 @@ namespace Fiap03.Web.MVC.Controllers
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = "DELETE FROM Carro WHERE Id = @Id";
+                string sql = "DELETE FROM Marca WHERE Id = @Id";
 
                 var deletado = db.Execute(sql, new { Id = codigo });
 
@@ -71,41 +60,39 @@ namespace Fiap03.Web.MVC.Controllers
         }
 
         [HttpGet]
-        public PartialViewResult ListarCarro(int codigo)
+        public PartialViewResult ListarMarca(int codigo)
         {
-            ViewBag.marcas = new SelectList(_marcasCarros);
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = "SELECT * FROM Carro WHERE Id = @Id";
+                string sql = "SELECT * FROM Marca WHERE Id = @Id";
 
-                var carro = db.Query<CarroModel>(sql, new { Id = codigo }).FirstOrDefault();
-                //return Json(carros, JsonRequestBehavior.AllowGet);
+                var carro = db.Query<MarcaModel>(sql, new { Id = codigo }).FirstOrDefault();
                 return PartialView("_EditarPartial", carro);
             }
         }
 
         [HttpGet]
-        public ActionResult Buscar(int ano)
+        public ActionResult Buscar(int cnpj)
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = "SELECT * FROM Carro WHERE Ano = @Ano OR 0 = @Ano";
+                string sql = "SELECT * FROM Marca WHERE Cnpj LIKE '%@Cnpj%'";
 
-                var carros = db.Query<CarroModel>(sql, new { Ano = ano }).ToList();
+                var carros = db.Query<MarcaModel>(sql, new { Cnpj = cnpj }).ToList();
                 return View("Listar", carros);
             }
         }
 
-        [HttpPost]
-        public ActionResult Editar(CarroModel carro)
+        [HttpGet]
+        public ActionResult Editar(MarcaModel marca)
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-              
 
-                string sql = "UPDATE Carro SET Marca = @Marca, Combustivel = @Combustivel, Esportivo = @Esportivo, Placa = @Placa, Ano = @Ano, Descricao = @Descricao WHERE Id = @Id";
 
-                var a = db.Execute(sql, carro) > 0;
+                string sql = "UPDATE Marca SET Nome = '@Nome', Cnpj = @Cnpj, DataCriacao = @DataCriacao WHERE Id = @Id";
+
+                var a = db.Execute(sql, marca) > 0;
                 if (a != false)
                     TempData["msg"] = "Carro alterado";
                 TempData["msg"] = "Carro feio";

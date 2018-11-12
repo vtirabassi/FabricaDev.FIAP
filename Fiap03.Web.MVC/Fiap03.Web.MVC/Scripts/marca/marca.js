@@ -1,16 +1,16 @@
-﻿$('body').on("click", 'button[data-id="editarCarro"]', function () {
+﻿$('body').on("click", 'button[data-id="editarMarca"]', function () {
     let id = $(this).data('codigo');
 
     $.ajax({
         type: "GET",
-        url: `/Carro/ListarCarro?codigo=${id}`,
+        url: `/Marca/ListarMarca?codigo=${id}`,
         success: function (data)
         {
             $("body").append(data);
-            $("#modalEditarCarro").modal('show');
+            $("#modalEditarMarca").modal('show');
         },
         error: function (data) {
-            alert("teste");
+            alert("Erro ao editar");
         }
     })
 });

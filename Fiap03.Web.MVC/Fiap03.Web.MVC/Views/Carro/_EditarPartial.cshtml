@@ -1,13 +1,13 @@
 ﻿@model Fiap03.Web.MVC.Models.CarroModel
 
-<div class="modal fade" id="modalEditar">
+<div class="modal fade" id="modalEditarCarro">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Editar Registro</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
             </div>
-            @using (Html.BeginForm())
+            @using (Html.BeginForm("Editar", "Carro"))
             {
                 <div class="form-group">
                     @Html.LabelFor(c => c.Marca)
@@ -37,7 +37,7 @@
                     @Html.TextAreaFor(c => c.Descricao, new { @class = "form-control" })
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" id="confEditar">Editar</button>
+                    <button value="@Model.Id" type="submit" class="btn btn-warning" id="confEditar">Editar</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 </div>
             }

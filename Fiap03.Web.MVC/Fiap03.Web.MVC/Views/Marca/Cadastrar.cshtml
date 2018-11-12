@@ -1,0 +1,29 @@
+﻿@model Fiap03.Web.MVC.Models.MarcaModel
+
+@{
+    /**/
+
+    ViewBag.Title = "Cadastrar";
+}
+
+<h2>Cadastrar Marca</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(c => c.Nome)
+        @Html.TextBoxFor(c => c.Nome, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Cnpj)
+        @Html.TextBoxFor(c => c.Cnpj, new { placeholder = "Digite o CNPJ", @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.DataCriacao)
+        @Html.TextBoxFor(model => model.DataCriacao,
+        new { type = "date" })
+    </div>
+
+    @Fabrica.Botao("Cadastrar")
+    <a href="/Home/Index" class="btn btn-default">Cancelar</a>
+}
