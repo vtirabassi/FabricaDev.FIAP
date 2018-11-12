@@ -2,13 +2,16 @@
 
 <div class="modal fade" id="modalEditarMarca">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="padding:15px;">
             <div class="modal-header">
                 <h4 class="modal-title">Editar Marca</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
             </div>
             @using (Html.BeginForm("Editar", "Marca"))
             {
+                @Html.HiddenFor(c => c.Id)
+
+                <br/>
                 <div class="form-group">
                     @Html.LabelFor(c => c.Nome)
                     @Html.TextBoxFor(c => c.Nome, new { @class = "form-control" })
@@ -23,7 +26,7 @@
                     new { type = "date" })
                 </div>
                 <div class="modal-footer">
-                    <button value="@Model.Id" type="submit" class="btn btn-warning" id="confEditar">Editar</button>
+                    <button type="submit" class="btn btn-warning" id="confEditar">Editar</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 </div>
             }

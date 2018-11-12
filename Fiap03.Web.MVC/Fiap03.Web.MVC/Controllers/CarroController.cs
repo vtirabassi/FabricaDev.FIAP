@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -32,15 +33,24 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Cadastrar(CarroModel carro)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
+           var x = Regex.Match(carro.Placa, "[A-Z]{3}-[0-9]{4}");
+            if (x.Success)
             {
-                string sql = "INSERT INTO Carro VALUES (@Marca, @Ano, @Esportivo, @Placa, @Descricao, @Combustivel); SELECT CAST(SCOPE_IDENTITY() as int)";
+                using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
+                {
+                    string sql = "INSERT INTO Carro VALUES (@Marca, @Ano, @Esportivo, @Placa, @Descricao, @Combustivel); SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                int id = db.Query<int>(sql, carro).Single();
+                    int id = db.Query<int>(sql, carro).Single();
 
-                TempData["msg"] = "Carro registrado";
-                return RedirectToAction("Listar");
+                    TempData["msg"] = "Carro registrado";
+                }
             }
+            else
+            {
+                TempData["msg"] = "Placa invalida";
+            }
+
+            return RedirectToAction("Listar");
         }
 
         [HttpGet]
@@ -108,7 +118,8 @@ namespace Fiap03.Web.MVC.Controllers
                 var a = db.Execute(sql, carro) > 0;
                 if (a != false)
                     TempData["msg"] = "Carro alterado";
-                TempData["msg"] = "Carro feio";
+                else
+                    TempData["msg"] = "Erro ao alterar carro";
                 return RedirectToAction("Listar");
             }
         }
