@@ -41,6 +41,9 @@
             <th>Esportivo</th>
             <th>Placa</th>
             <th>Descricao</th>
+            <th>Renavam</th>
+            <th>Categoria</th>
+            <th>Data de Fabricao</th>
             <th></th>
             <th></th>
         </tr>
@@ -49,7 +52,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Marca</td>
+                <td>@item.MarcaId</td>
                 <td>@item.Combustivel</td>
                 <td>@item.Ano</td>
                 @if (item.Esportivo == true)
@@ -62,6 +65,9 @@
                 }
                 <td>@item.Placa</td>
                 <td>@item.Descricao</td>
+                <td>@item.Renavam</td>
+                <td>@item.Documento.Categoria</td>
+                <td>@item.Documento.DataFabricacao.ToShortDateString()</td>
                 <!-- Button trigger modal -->
                 <td>
                     <button data-codigo="@item.Id" data-id="editarCarro" type="button" class="btn btn-outline-warning" data-toggle="modal">

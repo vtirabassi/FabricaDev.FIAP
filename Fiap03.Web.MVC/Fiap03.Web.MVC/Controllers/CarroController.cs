@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,36 +16,57 @@ namespace Fiap03.Web.MVC.Controllers
     public class CarroController : Controller
     {
         //simula o BD
-        private static IList<string> _marcasCarros = new List<string>() {
-            "Hyndai",
-            "FIAT",
-            "Toyota",
-            "Honda",
-            "Jeep"
-        };
+        //private static IList<string> _marcasCarros = new List<string>() {
+        //    "Hyndai",
+        //    "FIAT",
+        //    "Toyota",
+        //    "Honda",
+        //    "Jeep"
+        //};
 
+        private void CarregarMarcas()
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
+            {
+                string sql = "SELECT * FROM Marca";
+
+                var marcas = db.Query<MarcaModel>(sql).ToList();
+
+                ViewBag.marcas = new SelectList(marcas, "Id", "Nome");
+            }
+        }
         [HttpGet]
         public ActionResult Cadastrar()
         {
-            ViewBag.marcas = new SelectList(_marcasCarros);
+            CarregarMarcas();
             return View();
         }
 
         [HttpPost]
         public ActionResult Cadastrar(CarroModel carro)
         {
-           var x = Regex.Match(carro.Placa, "[A-Z]{3}-[0-9]{4}");
+            var x = Regex.Match(carro.Placa, "[A-Z]{3}-[0-9]{4}");
             if (x.Success)
             {
                 using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
                 {
-                    string sql = "INSERT INTO Carro VALUES (@Marca, @Ano, @Esportivo, @Placa, @Descricao, @Combustivel); SELECT CAST(SCOPE_IDENTITY() as int)";
+                    using (var txScope = new TransactionScope())
+                    {
+                        string sql = "INSERT INTO Documento VALUES(@Renavam, @Categoria, @DataFabricacao)";
 
-                    int id = db.Query<int>(sql, carro).Single();
+                        db.Execute(sql, carro.Documento);
 
-                    TempData["msg"] = "Carro registrado";
+                        string sql2 = "INSERT INTO Carro VALUES (@MarcaId, @Ano, @Esportivo, @Placa, @Descricao, @Combustivel, @Renavam); SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                        carro.Renavam = carro.Documento.Renavam;
+                        int id = db.Query<int>(sql2, carro).Single();
+
+                        txScope.Complete();
+                    }
                 }
+                TempData["msg"] = "Carro registrado";
             }
+
             else
             {
                 TempData["msg"] = "Placa invalida";
@@ -56,12 +78,17 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public ActionResult Listar()
         {
-            ViewBag.marcas = new SelectList(_marcasCarros);
+            CarregarMarcas();
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = "SELECT * FROM Carro";
+                string sql = "SELECT * FROM Carro INNER JOIN Documento ON Carro.Renavam = Documento.Renavam";
 
-                var carros = db.Query<CarroModel>(sql).ToList();
+                var carros = db.Query<CarroModel, DocumentoModel, CarroModel>(sql,
+                    (carro, documento) =>
+                    {
+                        carro.Documento = documento;
+                        return carro;
+                    }, splitOn: "Renavam, Renavam").ToList();
                 return View(carros);
             }
         }
@@ -83,14 +110,18 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public PartialViewResult ListarCarro(int codigo)
         {
-            ViewBag.marcas = new SelectList(_marcasCarros);
+            CarregarMarcas();
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = "SELECT * FROM Carro WHERE Id = @Id";
+                string sql = "SELECT * FROM Carro INNER JOIN Documento ON Carro.Renavam = Documento.Renavam WHERE Id = @Id";
 
-                var carro = db.Query<CarroModel>(sql, new { Id = codigo }).FirstOrDefault();
-                //return Json(carros, JsonRequestBehavior.AllowGet);
-                return PartialView("_EditarPartial", carro);
+                var carroDet = db.Query<CarroModel, DocumentoModel, CarroModel>(sql,
+                    (carro, documento) =>
+                    {
+                        carro.Documento = documento;
+                        return carro; 
+                    }, new { Id = codigo }, splitOn: "Renavam, Renavam").FirstOrDefault();
+                return PartialView("_EditarPartial", carroDet);
             }
         }
 
@@ -111,9 +142,7 @@ namespace Fiap03.Web.MVC.Controllers
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-              
-
-                string sql = "UPDATE Carro SET Marca = @Marca, Combustivel = @Combustivel, Esportivo = @Esportivo, Placa = @Placa, Ano = @Ano, Descricao = @Descricao WHERE Id = @Id";
+                string sql = "UPDATE Carro SET Marca = @MarcaId, Combustivel = @Combustivel, Esportivo = @Esportivo, Placa = @Placa, Ano = @Ano, Descricao = @Descricao WHERE Id = @Id";
 
                 var a = db.Execute(sql, carro) > 0;
                 if (a != false)
@@ -125,3 +154,8 @@ namespace Fiap03.Web.MVC.Controllers
         }
     }
 }
+
+//AJUSTAR O BUSCA
+//AJUSTAR O EDITAR
+
+//LISTAR TODOS OS CARROS CADASTRADOS NA MARCA

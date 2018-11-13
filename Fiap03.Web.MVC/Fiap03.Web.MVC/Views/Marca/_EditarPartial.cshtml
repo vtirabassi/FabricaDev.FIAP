@@ -23,7 +23,7 @@
                 <div class="form-group">
                     @Html.LabelFor(c => c.DataCriacao)
                     @Html.TextBoxFor(model => model.DataCriacao,
-                    new { type = "date" })
+                    new { @class = "form-control" })
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-warning" id="confEditar">Editar</button>

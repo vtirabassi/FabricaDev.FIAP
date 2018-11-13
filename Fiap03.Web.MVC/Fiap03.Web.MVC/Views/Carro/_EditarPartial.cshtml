@@ -11,34 +11,10 @@
             {
                 @Html.HiddenFor(c => c.Id)
 
-                <br/>
-                <div class="form-group">
-                    @Html.LabelFor(c => c.Marca)
-                    @Html.DropDownListFor(c => c.Marca,
-                         ViewBag.marcas as SelectList,
-                         "Selecione",
-                         new { @class = "form-control" })
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(c => c.Combustivel)
-                    @Html.EnumDropDownListFor(c => c.Combustivel, "Selecione", new { @class = "form-control" })
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(c => c.Ano)
-                    @Html.TextBoxFor(c => c.Ano, new { @class = "form-control", placeholder = "Digite o ano" })
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(c => c.Esportivo)
-                    @Html.CheckBoxFor(c => c.Esportivo)
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(c => c.Placa)
-                    @Html.TextBoxFor(c => c.Placa, new { placeholder = "Digite a placa", @class = "form-control" })
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(c => c.Descricao)
-                    @Html.TextAreaFor(c => c.Descricao, new { @class = "form-control" })
-                </div>
+                <br />
+                
+                @Html.Partial("_form")
+
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-warning" id="confEditar">Editar</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>

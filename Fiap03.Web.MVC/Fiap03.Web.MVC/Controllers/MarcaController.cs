@@ -24,7 +24,7 @@ namespace Fiap03.Web.MVC.Controllers
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = "INSERT INTO Marca VALUES (@Nome, @Cnpj, @DataCriacao); SELECT CAST(SCOPE_IDENTITY() as int)";
+                string sql = "INSERT INTO Marca VALUES (@Nome, @DataCriacao, @Cnpj); SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 int id = db.Query<int>(sql, marca).Single();
 
@@ -83,19 +83,17 @@ namespace Fiap03.Web.MVC.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult Editar(MarcaModel marca)
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-
-
-                string sql = "UPDATE Marca SET Nome = '@Nome', Cnpj = @Cnpj, DataCriacao = @DataCriacao WHERE Id = @Id";
+                string sql = "UPDATE Marca SET Nome = @Nome, Cnpj = @Cnpj, DataCriacao = @DataCriacao WHERE Id = @Id";
 
                 var a = db.Execute(sql, marca) > 0;
                 if (a != false)
-                    TempData["msg"] = "Carro alterado";
-                TempData["msg"] = "Carro feio";
+                    TempData["msg"] = "Marca alterada";
+                TempData["msg"] = "Erro ao alterar marca";
                 return RedirectToAction("Listar");
             }
         }

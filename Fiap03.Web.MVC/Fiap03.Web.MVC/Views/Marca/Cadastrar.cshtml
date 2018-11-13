@@ -21,7 +21,7 @@
     <div class="form-group">
         @Html.LabelFor(c => c.DataCriacao)
         @Html.TextBoxFor(model => model.DataCriacao,
-        new { type = "date" })
+        new { @class = "form-control" })
     </div>
 
     @Fabrica.Botao("Cadastrar")
