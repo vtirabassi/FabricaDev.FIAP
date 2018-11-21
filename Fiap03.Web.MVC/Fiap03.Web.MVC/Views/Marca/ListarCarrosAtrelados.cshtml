@@ -1,0 +1,52 @@
+﻿@model IList<Fiap03.Web.MVC.Models.CarroModel>
+
+<div class="modal fade" id="modalListarCarrosAtrelados">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="padding:15px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Carros Atrelados</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Marca</th>
+                        <th>Combustivel</th>
+                        <th>Ano</th>
+                        <th>Esportivo</th>
+                        <th>Placa</th>
+                        <th>Descricao</th>
+                        <th>Renavam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.MarcaId</td>
+                            <td>@item.Combustivel</td>
+                            <td>@item.Ano</td>
+                            @if (item.Esportivo == true)
+                            {
+                                <td>Sim</td>
+                            }
+                            else
+                            {
+                                <td>Não</td>
+                            }
+                            <td>@item.Placa</td>
+                            <td>@item.Descricao</td>
+                            <td>@item.Renavam</td>
+                            <!-- Button trigger modal -->
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+

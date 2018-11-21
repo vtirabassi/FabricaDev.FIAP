@@ -119,7 +119,7 @@ namespace Fiap03.Web.MVC.Controllers
                     (carro, documento) =>
                     {
                         carro.Documento = documento;
-                        return carro; 
+                        return carro;
                     }, new { Id = codigo }, splitOn: "Renavam, Renavam").FirstOrDefault();
                 return PartialView("_EditarPartial", carroDet);
             }
@@ -130,9 +130,15 @@ namespace Fiap03.Web.MVC.Controllers
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = "SELECT * FROM Carro WHERE Ano = @Ano OR 0 = @Ano";
+                string sql = "SELECT * FROM Carro INNER JOIN Documento ON Carro.Renavam = Documento.Renavam WHERE Carro.Ano = @Ano OR 0 = @Ano";
 
-                var carros = db.Query<CarroModel>(sql, new { Ano = ano }).ToList();
+                var carros = db.Query<CarroModel, DocumentoModel, CarroModel>(sql,
+                    (carro, documento) =>
+                    {
+                        carro.Documento = documento;
+                        return carro;
+                    }, new { Ano = ano }, splitOn: "Renavam, Renavam").ToList();
+
                 return View("Listar", carros);
             }
         }
@@ -142,20 +148,28 @@ namespace Fiap03.Web.MVC.Controllers
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = "UPDATE Carro SET Marca = @MarcaId, Combustivel = @Combustivel, Esportivo = @Esportivo, Placa = @Placa, Ano = @Ano, Descricao = @Descricao WHERE Id = @Id";
+                using (var txScope = new TransactionScope())
+                {
+                    string sql = "UPDATE Documento SET Categoria = @Categoria, DataFabricacao = @DataFabricacao WHERE Renavam = @Renavam";
 
-                var a = db.Execute(sql, carro) > 0;
-                if (a != false)
-                    TempData["msg"] = "Carro alterado";
-                else
-                    TempData["msg"] = "Erro ao alterar carro";
-                return RedirectToAction("Listar");
+                    db.Execute(sql, carro.Documento);
+
+                    string sql2 = "UPDATE Carro SET MarcaId = @MarcaId, Combustivel = @Combustivel, Esportivo = @Esportivo, Placa = @Placa, Ano = @Ano, Descricao = @Descricao WHERE Id = @Id";
+
+                    carro.Renavam = carro.Documento.Renavam;
+                    var a = db.Execute(sql2, carro) > 0;
+
+                    txScope.Complete();
+
+                    if (a != false)
+                        TempData["msg"] = "Carro alterado";
+                    else
+                        TempData["msg"] = "Erro ao alterar carro";
+                    return RedirectToAction("Listar");
+                }
             }
+
         }
     }
 }
 
-//AJUSTAR O BUSCA
-//AJUSTAR O EDITAR
-
-//LISTAR TODOS OS CARROS CADASTRADOS NA MARCA

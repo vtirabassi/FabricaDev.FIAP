@@ -13,18 +13,18 @@
 @* Comentario C# *@
 
 @*@using (Html.BeginForm("Buscar", "Marca", FormMethod.Get))
-{
-    <div class="form-group row">
-        @Html.Label("Pesquisa")
-        <div class="col">
-            <input type="text" class="form-control" name="cnpj" placeholder="CNPJ">
-        </div>
-        <div class="col">
+    {
+        <div class="form-group row">
+            @Html.Label("Pesquisa")
+            <div class="col">
+                <input type="text" class="form-control" name="cnpj" placeholder="CNPJ">
+            </div>
+            <div class="col">
 
-            <button type="submit" class="btn btn-outline-info">Buscar</button>
+                <button type="submit" class="btn btn-outline-info">Buscar</button>
+            </div>
         </div>
-    </div>
-}*@
+    }*@
 
 <table class="table">
     <thead>
@@ -32,6 +32,7 @@
             <th>Nome</th>
             <th>CNPJ</th>
             <th>Data de Criação</th>
+            <th></th>
             <th></th>
             <th></th>
         </tr>
@@ -43,6 +44,11 @@
                 <td>@item.Nome</td>
                 <td>@item.Cnpj</td>
                 <td>@item.DataCriacao</td>
+                <td>
+                    <button data-codigo="@item.Id" data-id="listarCarros" type="button" class="btn btn-outline-primary" data-toggle="modal">
+                        Listar Carros
+                    </button>
+                </td>
                 <td>
                     <button data-codigo="@item.Id" data-id="editarMarca" type="button" class="btn btn-outline-warning" data-toggle="modal">
                         Editar

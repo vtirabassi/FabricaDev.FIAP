@@ -97,5 +97,27 @@ namespace Fiap03.Web.MVC.Controllers
                 return RedirectToAction("Listar");
             }
         }
+
+        [HttpGet]
+        public ActionResult ListarCarrosAtrelados(int id)
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
+            {
+                string sql = @"SELECT 
+                                    *
+                                FROM Carro
+                                INNER JOIN Marca
+                                    ON Carro.MarcaId = Marca.Id
+                                WHERE MarcaId = @Id";
+
+                var carros = db.Query<CarroModel, MarcaModel, CarroModel>(sql,
+                    (carro, marca) =>
+                    {
+                        carro.MarcaId = marca.Id;
+                        return carro;
+                    }, new { Id = id },splitOn: "MarcaId, Id").ToList();
+                return PartialView(carros);
+            }
+        }
     }
 }

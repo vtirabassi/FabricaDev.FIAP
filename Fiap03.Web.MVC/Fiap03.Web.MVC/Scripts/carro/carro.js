@@ -6,11 +6,12 @@
         url: `/Carro/ListarCarro?codigo=${id}`,
         success: function (data)
         {
+            $("#modalEditarCarro").remove();
             $("body").append(data);
             $("#modalEditarCarro").modal('show');
         },
         error: function (data) {
-            alert("teste");
+            alert("Erro ao editar");
         }
     })
 });

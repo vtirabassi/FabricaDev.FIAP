@@ -11,6 +11,7 @@ namespace Fiap03.Web.MVC.Models
 
         public int Id { get; set; }
 
+        [Display(Name = "Marca")]
         //FK
         public int MarcaId { get; set; }
         public int Ano { get; set; }
