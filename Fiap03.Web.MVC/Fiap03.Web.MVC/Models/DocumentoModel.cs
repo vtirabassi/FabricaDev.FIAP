@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Fiap03.MOD;
+using Fiap03.MOD.Enum;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Fiap03.Web.MVC.Models
@@ -10,5 +12,12 @@ namespace Fiap03.Web.MVC.Models
 
         [Display(Name = "Data de Fabricação")]
         public DateTime DataFabricacao { get; set; }
+
+        public DocumentoModel(DocumentoMOD documento)
+        {
+            Renavam = documento.Renavam;
+            Categoria = Categoria;
+            DataFabricacao = documento.DataFabricacao;
+        }
     }
 }

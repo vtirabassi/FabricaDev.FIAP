@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Fiap03.MOD;
+using Fiap03.MOD.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace Fiap03.Web.MVC.Models
         public bool Esportivo { get; set; }
         public string Placa { get; set; }
 
+
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
 
@@ -28,6 +31,20 @@ namespace Fiap03.Web.MVC.Models
         public DocumentoModel Documento { get; set; }
 
         public int Renavam { get; set; }
+
+
+        public CarroModel(CarroMOD carro)
+        {
+            Id = carro.Id;
+            MarcaId = carro.MarcaId;
+            Ano = carro.Ano;
+            Esportivo = carro.Esportivo;
+            Placa = carro.Placa;
+            Descricao = carro.Descricao;
+            Combustivel = carro.Combustivel;
+            Documento = new DocumentoModel(carro.Documento);
+            Renavam = carro.Renavam;
+        }
 
     }
 }

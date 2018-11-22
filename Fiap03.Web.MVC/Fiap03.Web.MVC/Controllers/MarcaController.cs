@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Fiap03.DAL.Repositorios;
 using Fiap03.Web.MVC.Models;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,12 @@ using System.Web.Mvc;
 
 namespace Fiap03.Web.MVC.Controllers
 {
+
     public class MarcaController : Controller
     {
+
+        MarcaRepository _marcaRepositor = new MarcaRepository();
+
         [HttpGet]
         public ActionResult Cadastrar()
         {
@@ -22,15 +27,10 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Cadastrar(MarcaModel marca)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
-            {
-                string sql = "INSERT INTO Marca VALUES (@Nome, @DataCriacao, @Cnpj); SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                int id = db.Query<int>(sql, marca).Single();
 
-                TempData["msg"] = "Marca criada";
-                return RedirectToAction("Listar");
-            }
+            TempData["msg"] = "Marca criada";
+            return RedirectToAction("Listar");
         }
 
         [HttpGet]
@@ -38,9 +38,7 @@ namespace Fiap03.Web.MVC.Controllers
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = "SELECT * FROM Marca";
 
-                var marcas = db.Query<MarcaModel>(sql).ToList();
                 return View(marcas);
             }
         }
@@ -62,13 +60,7 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public PartialViewResult ListarMarca(int codigo)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
-            {
-                string sql = "SELECT * FROM Marca WHERE Id = @Id";
-
-                var carro = db.Query<MarcaModel>(sql, new { Id = codigo }).FirstOrDefault();
-                return PartialView("_EditarPartial", carro);
-            }
+            return PartialView("_EditarPartial", _marcaRepositor.ListarMarca(codigo));
         }
 
         [HttpGet]
@@ -76,9 +68,7 @@ namespace Fiap03.Web.MVC.Controllers
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = "SELECT * FROM Marca WHERE Cnpj LIKE '%@Cnpj%'";
 
-                var carros = db.Query<MarcaModel>(sql, new { Cnpj = cnpj }).ToList();
                 return View("Listar", carros);
             }
         }
@@ -88,9 +78,7 @@ namespace Fiap03.Web.MVC.Controllers
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = "UPDATE Marca SET Nome = @Nome, Cnpj = @Cnpj, DataCriacao = @DataCriacao WHERE Id = @Id";
 
-                var a = db.Execute(sql, marca) > 0;
                 if (a != false)
                 {
                     TempData["msg"] = "Marca alterada";
@@ -108,19 +96,7 @@ namespace Fiap03.Web.MVC.Controllers
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
             {
-                string sql = @"SELECT 
-                                    *
-                                FROM Carro
-                                INNER JOIN Marca
-                                    ON Carro.MarcaId = Marca.Id
-                                WHERE MarcaId = @Id";
 
-                var carros = db.Query<CarroModel, MarcaModel, CarroModel>(sql,
-                    (carro, marca) =>
-                    {
-                        carro.MarcaId = marca.Id;
-                        return carro;
-                    }, new { Id = id },splitOn: "MarcaId, Id").ToList();
                 return PartialView(carros);
             }
         }

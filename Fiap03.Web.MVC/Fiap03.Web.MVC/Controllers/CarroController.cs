@@ -1,4 +1,8 @@
 ﻿using Dapper;
+using Fiap03.DAL.ConnectionFactories;
+using Fiap03.DAL.ConnectionFactory;
+using Fiap03.DAL.Repositorios;
+using Fiap03.DAL.Repositorios.Interfaces;
 using Fiap03.Web.MVC.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +19,8 @@ namespace Fiap03.Web.MVC.Controllers
 {
     public class CarroController : Controller
     {
+        private ICarroRepository _carroRepository;
+
         //simula o BD
         //private static IList<string> _marcasCarros = new List<string>() {
         //    "Hyndai",
@@ -26,7 +32,7 @@ namespace Fiap03.Web.MVC.Controllers
 
         private void CarregarMarcas()
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
+            using (IDbConnection db = ConnectionFactory.GetConnection())
             {
                 string sql = "SELECT * FROM Marca";
 
@@ -35,6 +41,7 @@ namespace Fiap03.Web.MVC.Controllers
                 ViewBag.marcas = new SelectList(marcas, "Id", "Nome");
             }
         }
+
         [HttpGet]
         public ActionResult Cadastrar()
         {
@@ -48,25 +55,9 @@ namespace Fiap03.Web.MVC.Controllers
             var x = Regex.Match(carro.Placa, "[A-Z]{3}-[0-9]{4}");
             if (x.Success)
             {
-                using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
-                {
-                    using (var txScope = new TransactionScope())
-                    {
-                        string sql = "INSERT INTO Documento VALUES(@Renavam, @Categoria, @DataFabricacao)";
-
-                        db.Execute(sql, carro.Documento);
-
-                        string sql2 = "INSERT INTO Carro VALUES (@MarcaId, @Ano, @Esportivo, @Placa, @Descricao, @Combustivel, @Renavam); SELECT CAST(SCOPE_IDENTITY() as int)";
-
-                        carro.Renavam = carro.Documento.Renavam;
-                        int id = db.Query<int>(sql2, carro).Single();
-
-                        txScope.Complete();
-                    }
-                }
+                _carroRepository.Cadastrar(new CarroModel(carro));
                 TempData["msg"] = "Carro registrado";
             }
-
             else
             {
                 TempData["msg"] = "Placa invalida";
@@ -78,97 +69,41 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public ActionResult Listar()
         {
-            CarregarMarcas();
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
-            {
-                string sql = "SELECT * FROM Carro INNER JOIN Documento ON Carro.Renavam = Documento.Renavam";
-
-                var carros = db.Query<CarroModel, DocumentoModel, CarroModel>(sql,
-                    (carro, documento) =>
-                    {
-                        carro.Documento = documento;
-                        return carro;
-                    }, splitOn: "Renavam, Renavam").ToList();
-                return View(carros);
-            }
+            return View(_carroRepository.Listar());
         }
 
         [HttpPost]
         public ActionResult Excluir(int codigo)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
-            {
-                string sql = "DELETE FROM Carro WHERE Id = @Id";
-
-                var deletado = db.Execute(sql, new { Id = codigo });
-
-                TempData["msgApagar"] = "Carro excluido";
-                return RedirectToAction("Listar");
-            }
+            _carroRepository.Excluir(codigo);
+            TempData["msgApagar"] = "Carro excluido";
+            return RedirectToAction("Listar");
         }
 
         [HttpGet]
         public PartialViewResult ListarCarro(int codigo)
         {
             CarregarMarcas();
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
-            {
-                string sql = "SELECT * FROM Carro INNER JOIN Documento ON Carro.Renavam = Documento.Renavam WHERE Id = @Id";
 
-                var carroDet = db.Query<CarroModel, DocumentoModel, CarroModel>(sql,
-                    (carro, documento) =>
-                    {
-                        carro.Documento = documento;
-                        return carro;
-                    }, new { Id = codigo }, splitOn: "Renavam, Renavam").FirstOrDefault();
-                return PartialView("_EditarPartial", carroDet);
-            }
+            return PartialView("_EditarPartial", _carroRepository.ListarCarro(codigo));
         }
 
         [HttpGet]
         public ActionResult Buscar(int ano)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
-            {
-                string sql = "SELECT * FROM Carro INNER JOIN Documento ON Carro.Renavam = Documento.Renavam WHERE Carro.Ano = @Ano OR 0 = @Ano";
-
-                var carros = db.Query<CarroModel, DocumentoModel, CarroModel>(sql,
-                    (carro, documento) =>
-                    {
-                        carro.Documento = documento;
-                        return carro;
-                    }, new { Ano = ano }, splitOn: "Renavam, Renavam").ToList();
-
-                return View("Listar", carros);
-            }
+            return View("Listar", _carroRepository.Buscar(ano));
         }
 
         [HttpPost]
         public ActionResult Editar(CarroModel carro)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
-            {
-                using (var txScope = new TransactionScope())
-                {
-                    string sql = "UPDATE Documento SET Categoria = @Categoria, DataFabricacao = @DataFabricacao WHERE Renavam = @Renavam";
+            var a = _carroRepository.Editar(carro);
 
-                    db.Execute(sql, carro.Documento);
-
-                    string sql2 = "UPDATE Carro SET MarcaId = @MarcaId, Combustivel = @Combustivel, Esportivo = @Esportivo, Placa = @Placa, Ano = @Ano, Descricao = @Descricao WHERE Id = @Id";
-
-                    carro.Renavam = carro.Documento.Renavam;
-                    var a = db.Execute(sql2, carro) > 0;
-
-                    txScope.Complete();
-
-                    if (a != false)
-                        TempData["msg"] = "Carro alterado";
-                    else
-                        TempData["msg"] = "Erro ao alterar carro";
-                    return RedirectToAction("Listar");
-                }
-            }
-
+            if (a != false)
+                TempData["msg"] = "Carro alterado";
+            else
+                TempData["msg"] = "Erro ao alterar carro";
+            return RedirectToAction("Listar");
         }
     }
 }
