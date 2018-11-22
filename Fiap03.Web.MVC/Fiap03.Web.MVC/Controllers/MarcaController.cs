@@ -92,8 +92,13 @@ namespace Fiap03.Web.MVC.Controllers
 
                 var a = db.Execute(sql, marca) > 0;
                 if (a != false)
+                {
                     TempData["msg"] = "Marca alterada";
-                TempData["msg"] = "Erro ao alterar marca";
+                }
+                else
+                {
+                    TempData["msg"] = "Erro ao alterar marca";
+                }
                 return RedirectToAction("Listar");
             }
         }

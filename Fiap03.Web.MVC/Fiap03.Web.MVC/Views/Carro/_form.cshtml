@@ -37,7 +37,14 @@
         <h2>Documento</h2>
         <div class="form-group">
             @Html.LabelFor(c => c.Documento.Renavam)
-            @Html.TextBoxFor(c => c.Documento.Renavam, new { @class = "form-control", placeholder = "Digite o renavam" })
+            @if (Model == null)
+            {
+                @Html.TextBoxFor(c => c.Documento.Renavam, new { @class = "form-control", placeholder = "Digite o renavam" })
+            }
+            else
+            {
+                @Html.TextBoxFor(c => c.Documento.Renavam, new { @class = "form-control", @readonly = "readonly" })
+            }
         </div>
         <div class="form-group">
             @Html.LabelFor(c => c.Documento.Categoria)
