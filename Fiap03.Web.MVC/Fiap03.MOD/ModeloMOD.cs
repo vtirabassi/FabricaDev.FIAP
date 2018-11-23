@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace Fiap03.MOD
 {
-    public class MarcaMOD
+    public class ModeloMOD
     {
         public int Id { get; set; }
         public string Nome { get; set; }
-        public DateTime DataCriacao { get; set; }
-        public string Cnpj { get; set; }
-
-        public MarcaMOD() { }
+        public int MarcaId { get; set; }
     }
 }

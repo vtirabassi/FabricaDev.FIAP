@@ -19,5 +19,7 @@ namespace Fiap03.Web.MVC.Models
             Categoria = Categoria;
             DataFabricacao = documento.DataFabricacao;
         }
+
+        public DocumentoModel() { }
     }
 }

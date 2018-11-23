@@ -29,13 +29,13 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Cadastrar(MarcaModel marca)
         {
-            _marcaRepositor.Cadastrar(new MarcaMOD()
+            var marcaMOD  = new MarcaMOD()
             {
-                Id = marca.Id,
                 Nome = marca.Nome,
                 Cnpj = marca.Cnpj,
                 DataCriacao = marca.DataCriacao
-            });
+            };
+            _marcaRepositor.Cadastrar(marcaMOD);
 
             TempData["msg"] = "Marca criada";
             return RedirectToAction("Listar");
@@ -62,7 +62,8 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public PartialViewResult ListarMarca(int codigo)
         {
-            return PartialView("_EditarPartial", new MarcaModel(_marcaRepositor.ListarMarca(codigo)));
+            var marca = new MarcaModel(_marcaRepositor.ListarMarca(codigo));
+            return PartialView("_EditarPartial", marca);
         }
 
         [HttpGet]

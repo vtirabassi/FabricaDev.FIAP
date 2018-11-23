@@ -21,5 +21,7 @@ namespace Fiap03.MOD
         public int Renavam { get; set; }
 
         public DocumentoMOD Documento { get; set; }
+
+        public CarroMOD() { }
     }
 }

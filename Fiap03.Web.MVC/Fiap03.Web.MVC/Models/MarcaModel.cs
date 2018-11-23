@@ -26,5 +26,7 @@ namespace Fiap03.Web.MVC.Models
             DataCriacao = marca.DataCriacao;
             Cnpj = marca.Cnpj;
         }
+
+        public MarcaModel() { }
     }
 }

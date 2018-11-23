@@ -1,0 +1,48 @@
+﻿@model IList<Fiap03.Web.MVC.Models.ModeloModel>
+
+<div class="modal fade" id="modalListarModelos">
+    <div class="modal-dialog">
+        <div class="modal-content" style="padding:15px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Editar Marca</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <h2>Modelos</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var m in Model)
+                            {
+                                <tr>
+                                    <td>@m.Nome</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-3">
+                    @using (Html.BeginForm("Cadastrar", "Modelo"))
+                    {
+                        @Html.HiddenFor(c => c.Id)
+
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.)
+                            @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-warning" id="confEditar">Editar</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

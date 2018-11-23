@@ -34,3 +34,23 @@ $('body').on("click", 'button[data-id="listarCarros"]', function () {
         }
     })
 });
+
+$('body').on("click", 'button[data-id="listarModelos"]', function () {
+    alert("teste");
+    let id = $(this).data('codigo');
+
+    $.ajax({
+        type: "GET",
+        url: `/Modelo/Listar?marcaId=${id}`,
+        success: function (data) {
+
+            $("#modalListarModelos").remove();
+            $("body").append(data);
+            $("#modalListarModelos").modal('show');
+        },
+        error: function (data) {
+            alert("Erro ao listar");
+        }
+    })
+});
+
