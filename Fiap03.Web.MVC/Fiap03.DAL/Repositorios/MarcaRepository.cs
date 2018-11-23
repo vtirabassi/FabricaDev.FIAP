@@ -42,9 +42,14 @@ namespace Fiap03.DAL.Repositorios
             }
         }
 
-        public void Excluir(int codigo)
+        public bool Excluir(int codigo)
         {
-            throw new NotImplementedException();
+            using (var db = ConnectionFactories.ConnectionFactory.GetConnection())
+            {
+                string sql = "DELETE FROM Marca WHERE Id = @Id";
+
+                return db.Execute(sql, new { Id = codigo }) > 0;
+            }
         }
 
         public IList<MarcaMOD> Listar()

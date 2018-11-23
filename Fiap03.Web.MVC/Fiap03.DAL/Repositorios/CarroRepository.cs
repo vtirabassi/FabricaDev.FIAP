@@ -62,9 +62,9 @@ namespace Fiap03.DAL.Repositorios
                     string sql2 = "UPDATE Carro SET MarcaId = @MarcaId, Combustivel = @Combustivel, Esportivo = @Esportivo, Placa = @Placa, Ano = @Ano, Descricao = @Descricao WHERE Id = @Id";
 
                     carro.Renavam = carro.Documento.Renavam;
-                    return db.Execute(sql2, carro) > 0;
 
                     txScope.Complete();
+                    return db.Execute(sql2, carro) > 0;
                 }
             }
         }

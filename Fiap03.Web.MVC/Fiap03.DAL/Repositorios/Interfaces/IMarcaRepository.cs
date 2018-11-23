@@ -13,7 +13,7 @@ namespace Fiap03.DAL.Interfaces
 
         IList<MarcaMOD> Listar();
 
-        void Excluir(int codigo);
+        bool Excluir(int codigo);
 
         MarcaMOD ListarMarca(int codigo);
 

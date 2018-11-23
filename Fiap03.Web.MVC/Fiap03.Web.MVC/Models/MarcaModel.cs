@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fiap03.MOD;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,5 +18,13 @@ namespace Fiap03.Web.MVC.Models
 
         [Display(Name = "CNPJ")]
         public string Cnpj { get; set; }
+
+        public MarcaModel(MarcaMOD marca)
+        {
+            Id = marca.Id;
+            Nome = marca.Nome;
+            DataCriacao = marca.DataCriacao;
+            Cnpj = marca.Cnpj;
+        }
     }
 }

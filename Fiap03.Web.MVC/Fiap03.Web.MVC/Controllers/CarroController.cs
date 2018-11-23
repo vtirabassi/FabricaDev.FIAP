@@ -1,8 +1,8 @@
 ﻿using Dapper;
 using Fiap03.DAL.ConnectionFactories;
-using Fiap03.DAL.ConnectionFactory;
 using Fiap03.DAL.Repositorios;
 using Fiap03.DAL.Repositorios.Interfaces;
+using Fiap03.MOD;
 using Fiap03.Web.MVC.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace Fiap03.Web.MVC.Controllers
 {
     public class CarroController : Controller
     {
-        private ICarroRepository _carroRepository;
+        private ICarroRepository _carroRepository = new CarroRepository();
 
         //simula o BD
         //private static IList<string> _marcasCarros = new List<string>() {
@@ -55,7 +55,24 @@ namespace Fiap03.Web.MVC.Controllers
             var x = Regex.Match(carro.Placa, "[A-Z]{3}-[0-9]{4}");
             if (x.Success)
             {
-                _carroRepository.Cadastrar(new CarroModel(carro));
+                _carroRepository.Cadastrar(new CarroMOD()
+                {
+                    Id = carro.Id,
+                    MarcaId = carro.MarcaId,
+                    Ano = carro.Ano,
+                    Esportivo = carro.Esportivo,
+                    Placa = carro.Placa,
+                    Descricao = carro.Descricao,
+                    Combustivel = carro.Combustivel,
+                    Renavam = carro.Renavam,
+                    Documento = new DocumentoMOD()
+                    {
+                        Renavam = carro.Documento.Renavam,
+                        Categoria = carro.Documento.Categoria,
+                        DataFabricacao = carro.Documento.DataFabricacao
+                    }
+                });           
+
                 TempData["msg"] = "Carro registrado";
             }
             else
@@ -69,7 +86,8 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public ActionResult Listar()
         {
-            return View(_carroRepository.Listar());
+            var carros = _carroRepository.Listar().Select(c => new CarroModel(c)).ToList();
+            return View(carros);
         }
 
         [HttpPost]
@@ -85,19 +103,36 @@ namespace Fiap03.Web.MVC.Controllers
         {
             CarregarMarcas();
 
-            return PartialView("_EditarPartial", _carroRepository.ListarCarro(codigo));
+            var carro = new CarroModel(_carroRepository.ListarCarro(codigo));
+            return PartialView("_EditarPartial", carro);
         }
 
         [HttpGet]
         public ActionResult Buscar(int ano)
         {
-            return View("Listar", _carroRepository.Buscar(ano));
+            return View("Listar", _carroRepository.Buscar(ano).Select(c => new CarroModel(c)).ToList());
         }
 
         [HttpPost]
         public ActionResult Editar(CarroModel carro)
         {
-            var a = _carroRepository.Editar(carro);
+            var a = _carroRepository.Editar(new CarroMOD()
+            {
+                Id = carro.Id,
+                MarcaId = carro.MarcaId,
+                Ano = carro.Ano,
+                Esportivo = carro.Esportivo,
+                Placa = carro.Placa,
+                Descricao = carro.Descricao,
+                Combustivel = carro.Combustivel,
+                Renavam = carro.Renavam,
+                Documento = new DocumentoMOD()
+                {
+                    Renavam = carro.Documento.Renavam,
+                    Categoria = carro.Documento.Categoria,
+                    DataFabricacao = carro.Documento.DataFabricacao
+                }
+            });
 
             if (a != false)
                 TempData["msg"] = "Carro alterado";

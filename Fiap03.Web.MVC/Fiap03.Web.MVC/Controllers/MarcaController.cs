@@ -1,5 +1,7 @@
 ﻿using Dapper;
+using Fiap03.DAL.Interfaces;
 using Fiap03.DAL.Repositorios;
+using Fiap03.MOD;
 using Fiap03.Web.MVC.Models;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,7 @@ namespace Fiap03.Web.MVC.Controllers
     public class MarcaController : Controller
     {
 
-        MarcaRepository _marcaRepositor = new MarcaRepository();
+        IMarcaRepository _marcaRepositor = new MarcaRepository();
 
         [HttpGet]
         public ActionResult Cadastrar()
@@ -27,7 +29,13 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Cadastrar(MarcaModel marca)
         {
-
+            _marcaRepositor.Cadastrar(new MarcaMOD()
+            {
+                Id = marca.Id,
+                Nome = marca.Nome,
+                Cnpj = marca.Cnpj,
+                DataCriacao = marca.DataCriacao
+            });
 
             TempData["msg"] = "Marca criada";
             return RedirectToAction("Listar");
@@ -36,69 +44,59 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public ActionResult Listar()
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
-            {
-
-                return View(marcas);
-            }
+            return View(_marcaRepositor.Listar().Select(m => new MarcaModel(m)).ToList());
         }
 
         [HttpPost]
         public ActionResult Excluir(int codigo)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
-            {
-                string sql = "DELETE FROM Marca WHERE Id = @Id";
+            var excluiu = _marcaRepositor.Excluir(codigo);
 
-                var deletado = db.Execute(sql, new { Id = codigo });
+            if (excluiu != true)
+                TempData["msgApagar"] = "Erro ao excluir";
+            TempData["msgApagar"] = "Carro excluido";
 
-                TempData["msgApagar"] = "Carro excluido";
-                return RedirectToAction("Listar");
-            }
+            return RedirectToAction("Listar");
         }
 
         [HttpGet]
         public PartialViewResult ListarMarca(int codigo)
         {
-            return PartialView("_EditarPartial", _marcaRepositor.ListarMarca(codigo));
+            return PartialView("_EditarPartial", new MarcaModel(_marcaRepositor.ListarMarca(codigo)));
         }
 
         [HttpGet]
         public ActionResult Buscar(int cnpj)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
-            {
-
-                return View("Listar", carros);
-            }
+            return View("Listar", _marcaRepositor.Buscar(cnpj).Select(m => new MarcaModel(m)).ToList());
         }
 
         [HttpPost]
         public ActionResult Editar(MarcaModel marca)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
+            var a = _marcaRepositor.Editar(new MarcaMOD()
             {
+                Id = marca.Id,
+                Nome = marca.Nome,
+                Cnpj = marca.Cnpj,
+                DataCriacao = marca.DataCriacao
+            });
 
-                if (a != false)
-                {
-                    TempData["msg"] = "Marca alterada";
-                }
-                else
-                {
-                    TempData["msg"] = "Erro ao alterar marca";
-                }
-                return RedirectToAction("Listar");
+            if (a != false)
+            {
+                TempData["msg"] = "Marca alterada";
             }
+            else
+            {
+                TempData["msg"] = "Erro ao alterar marca";
+            }
+            return RedirectToAction("Listar");
         }
 
         [HttpGet]
         public ActionResult ListarCarrosAtrelados(int id)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbFabrica"].ConnectionString))
-            {
-
-                return PartialView(carros);
-            }
+            return PartialView(_marcaRepositor.ListarCarrosAtrelados(id).Select(c => new CarroModel(c)).ToList());
         }
     }
 }
