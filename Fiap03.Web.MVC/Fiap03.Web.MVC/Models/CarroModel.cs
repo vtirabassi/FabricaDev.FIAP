@@ -13,13 +13,16 @@ namespace Fiap03.Web.MVC.Models
 
         public int Id { get; set; }
 
-        [Display(Name = "Marca")]
         //FK
+        [Required(ErrorMessage = "Por favor, selecione uma marca"), Display(Name = "Marca")]
         public int MarcaId { get; set; }
+
+        [Required(ErrorMessage = "Digite o ano do carro"), Range(minimum: 1960, maximum:3000)]
         public int Ano { get; set; }
         public bool Esportivo { get; set; }
-        public string Placa { get; set; }
 
+        [Required(ErrorMessage = "Por favor, digite a placa com 7 digios e com hiffen"), StringLength(8, MinimumLength = 8)]
+        public string Placa { get; set; }
 
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }

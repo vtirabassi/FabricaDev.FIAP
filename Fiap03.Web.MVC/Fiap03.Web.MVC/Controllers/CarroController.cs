@@ -52,33 +52,31 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Cadastrar(CarroModel carro)
         {
-            var x = Regex.Match(carro.Placa, "[A-Z]{3}-[0-9]{4}");
-            if (x.Success)
+            //var x = Regex.Match(carro.Placa, "[A-Z]{3}-[0-9]{4}");
+            if (!ModelState.IsValid)
             {
-                _carroRepository.Cadastrar(new CarroMOD()
-                {
-                    Id = carro.Id,
-                    MarcaId = carro.MarcaId,
-                    Ano = carro.Ano,
-                    Esportivo = carro.Esportivo,
-                    Placa = carro.Placa,
-                    Descricao = carro.Descricao,
-                    Combustivel = carro.Combustivel,
-                    Renavam = carro.Renavam,
-                    Documento = new DocumentoMOD()
-                    {
-                        Renavam = carro.Documento.Renavam,
-                        Categoria = carro.Documento.Categoria,
-                        DataFabricacao = carro.Documento.DataFabricacao
-                    }
-                });           
+                return Cadastrar();
+            }
 
-                TempData["msg"] = "Carro registrado";
-            }
-            else
+            _carroRepository.Cadastrar(new CarroMOD()
             {
-                TempData["msg"] = "Placa invalida";
-            }
+                Id = carro.Id,
+                MarcaId = carro.MarcaId,
+                Ano = carro.Ano,
+                Esportivo = carro.Esportivo,
+                Placa = carro.Placa,
+                Descricao = carro.Descricao,
+                Combustivel = carro.Combustivel,
+                Renavam = carro.Renavam,
+                Documento = new DocumentoMOD()
+                {
+                    Renavam = carro.Documento.Renavam,
+                    Categoria = carro.Documento.Categoria,
+                    DataFabricacao = carro.Documento.DataFabricacao
+                }
+            });
+
+            TempData["msg"] = "Carro registrado";
 
             return RedirectToAction("Listar");
         }
