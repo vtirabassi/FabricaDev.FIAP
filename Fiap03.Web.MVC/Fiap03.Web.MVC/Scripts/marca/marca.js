@@ -36,7 +36,6 @@ $('body').on("click", 'button[data-id="listarCarros"]', function () {
 });
 
 $('body').on("click", 'button[data-id="listarModelos"]', function () {
-    alert("teste");
     let id = $(this).data('codigo');
 
     $.ajax({

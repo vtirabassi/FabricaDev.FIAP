@@ -13,7 +13,12 @@ namespace Fiap03.DAL.Repositorios
     {
         public void Cadastrar(ModeloMOD modelo)
         {
-            throw new NotImplementedException();
+            using (var db = ConnectionFactories.ConnectionFactory.GetConnection())
+            {
+                string sql = "INSERT INTO Modelo VALUES (@Nome, @MarcaId)";
+
+                db.Execute(sql, new { Nome = modelo.Nome, MarcaId = modelo.MarcaId});
+            }
         }
 
         public IList<ModeloMOD> Listar(int marcaId)
