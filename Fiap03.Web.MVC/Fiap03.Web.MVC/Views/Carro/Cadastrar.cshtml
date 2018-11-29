@@ -10,11 +10,13 @@
 
 @using (Html.BeginForm())
 {
-   
+
     @Html.Partial("_form")
 
-    @Fabrica.Botao("Cadastrar")
-    <a href="/Home/Index" class="btn btn-default">Cancelar</a>
+    <div id="botoes" style="display:none">
+        @Fabrica.Botao("Cadastrar")
+        <a href="/Home/Index" class="btn btn-default">Cancelar</a>
+    </div>
 }
 
 

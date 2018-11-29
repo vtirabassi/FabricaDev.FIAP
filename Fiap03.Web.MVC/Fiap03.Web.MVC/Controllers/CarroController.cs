@@ -108,7 +108,7 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public ActionResult Buscar(int ano)
         {
-            return View("Listar", _carroRepository.Buscar(ano).Select(c => new CarroModel(c)).ToList());
+            return PartialView("_PartialBuscar", _carroRepository.Buscar(ano).Select(c => new CarroModel(c)).ToList());
         }
 
         [HttpPost]

@@ -1,0 +1,35 @@
+﻿@model IList<Fiap03.Web.MVC.Models.CarroModel>
+
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.MarcaId</td>
+        <td>@item.Combustivel</td>
+        <td>@item.Ano</td>
+        @if (item.Esportivo == true)
+        {
+            <td>Sim</td>
+        }
+        else
+        {
+            <td>Não</td>
+        }
+        <td>@item.Placa</td>
+        <td>@item.Descricao</td>
+        <td>@item.Renavam</td>
+        <td>@item.Documento.Categoria</td>
+        <td>@item.Documento.DataFabricacao.ToShortDateString()</td>
+        <!-- Button trigger modal -->
+        <td>
+            <button data-codigo="@item.Id" data-id="editarCarro" type="button" class="btn btn-outline-warning" data-toggle="modal">
+                Editar
+            </button>
+        </td>
+        <td>
+            <button onclick="codigoExcluir.value = @item.Id" type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#modalExcluir">
+                Excluir
+            </button>
+        </td>
+    </tr>
+}
