@@ -11,13 +11,23 @@ namespace Fiap03.DAL.Repositorios
 {
     public class ModeloRepository : IModeloRepository
     {
+        public IList<ModeloMOD> BuscarModelos(int marcaId)
+        {
+            using (var db = ConnectionFactories.ConnectionFactory.GetConnection())
+            {
+                string sql = @"SELECT * FROM Modelo WHERE MarcaId = @MarcaId";
+
+                return db.Query<ModeloMOD>(sql, new { MarcaId = marcaId }).ToList();
+            }
+        }
+
         public void Cadastrar(ModeloMOD modelo)
         {
             using (var db = ConnectionFactories.ConnectionFactory.GetConnection())
             {
                 string sql = "INSERT INTO Modelo VALUES (@Nome, @MarcaId)";
 
-                db.Execute(sql, new { Nome = modelo.Nome, MarcaId = modelo.MarcaId});
+                db.Execute(sql, new { Nome = modelo.Nome, MarcaId = modelo.MarcaId });
             }
         }
 

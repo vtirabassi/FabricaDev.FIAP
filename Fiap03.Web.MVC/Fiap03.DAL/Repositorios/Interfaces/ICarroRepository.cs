@@ -15,5 +15,9 @@ namespace Fiap03.DAL.Repositorios.Interfaces
         CarroMOD ListarCarro(int codigo);
         IList<CarroMOD> Buscar(int ano);
         bool Editar(CarroMOD carro);
+        bool ValidarPlaca(string placa);
+        
+
+    
     }
 }

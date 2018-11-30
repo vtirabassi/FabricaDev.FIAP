@@ -70,7 +70,10 @@ $().ready(function () {
     //    }
     //);
 
-    $('#DataCriacao').datepicker();
+    $('#DataCriacao').datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'pt-BR'
+    });
     $('#Cnpj').inputmask('99.999.999/9999-99');
 });
 

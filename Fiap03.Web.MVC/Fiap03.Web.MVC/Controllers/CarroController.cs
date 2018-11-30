@@ -20,6 +20,7 @@ namespace Fiap03.Web.MVC.Controllers
     public class CarroController : Controller
     {
         private ICarroRepository _carroRepository = new CarroRepository();
+        private IModeloRepository _modeloRepository = new ModeloRepository();
 
         //simula o BD
         //private static IList<string> _marcasCarros = new List<string>() {
@@ -138,6 +139,22 @@ namespace Fiap03.Web.MVC.Controllers
                 TempData["msg"] = "Erro ao alterar carro";
             return RedirectToAction("Listar");
         }
-    }
+
+        [HttpGet]
+        public ActionResult ValidarPlaca(string placa)
+        {
+            var valida = _carroRepository.ValidarPlaca(placa);
+            return Json(new {valido = valida}, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+
+        public ActionResult BuscarModelos(int marcaId)
+        {
+            var modelos = _modeloRepository.BuscarModelos(marcaId).Select(m => new ModeloModel(m)).ToList();
+            return Json(modelos, JsonRequestBehavior.AllowGet);
+        }
+
+    } 
 }
 

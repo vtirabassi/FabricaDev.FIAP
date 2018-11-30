@@ -110,5 +110,18 @@ namespace Fiap03.DAL.Repositorios
                 return carroDet;
             }
         }
+
+        public bool ValidarPlaca(string placa)
+        {
+            using (var db = ConnectionFactories.ConnectionFactory.GetConnection())
+            {
+                string sql = @"SELECT * FROM Carro WHERE Placa = @Placa";
+
+                var existe = db.QueryFirstOrDefault(sql, new { Placa = placa });
+                if (existe != null)
+                    return true;
+                return false;
+            }
+        }
     }
 }
