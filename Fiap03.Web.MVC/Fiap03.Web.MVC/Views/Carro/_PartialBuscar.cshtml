@@ -7,17 +7,10 @@
         <td>@item.MarcaId</td>
         <td>@item.Combustivel</td>
         <td>@item.Ano</td>
-        @if (item.Esportivo == true)
-        {
-            <td>Sim</td>
-        }
-        else
-        {
-            <td>Não</td>
-        }
+        <td>@(item.Esportivo ? @Html.Raw("Sim")  : @Html.Raw("Não"))</td>
         <td>@item.Placa</td>
         <td>@item.Descricao</td>
-        <td>@item.Renavam</td>
+        <td>@item.Documento.Renavam</td>
         <td>@item.Documento.Categoria</td>
         <td>@item.Documento.DataFabricacao.ToShortDateString()</td>
         <!-- Button trigger modal -->

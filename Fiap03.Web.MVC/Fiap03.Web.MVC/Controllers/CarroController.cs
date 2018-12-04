@@ -68,7 +68,7 @@ namespace Fiap03.Web.MVC.Controllers
                 Placa = carro.Placa,
                 Descricao = carro.Descricao,
                 Combustivel = carro.Combustivel,
-                Renavam = carro.Renavam,
+                ModeloId = carro.ModeloId,
                 Documento = new DocumentoMOD()
                 {
                     Renavam = carro.Documento.Renavam,
@@ -124,7 +124,6 @@ namespace Fiap03.Web.MVC.Controllers
                 Placa = carro.Placa,
                 Descricao = carro.Descricao,
                 Combustivel = carro.Combustivel,
-                Renavam = carro.Renavam,
                 Documento = new DocumentoMOD()
                 {
                     Renavam = carro.Documento.Renavam,

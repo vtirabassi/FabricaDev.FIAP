@@ -12,5 +12,6 @@ namespace Fiap03.DAL.Repositorios.Interfaces
         void Cadastrar(ModeloMOD modelo);
         IList<ModeloMOD> Listar(int marcaId);
         IList<ModeloMOD> BuscarModelos(int marcaId);
+        bool Excluir(int id);
     }
 }

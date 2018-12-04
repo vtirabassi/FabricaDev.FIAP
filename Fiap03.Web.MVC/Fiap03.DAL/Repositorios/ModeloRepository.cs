@@ -40,5 +40,15 @@ namespace Fiap03.DAL.Repositorios
                 return db.Query<ModeloMOD>(sql, new { MarcaId = marcaId }).ToList();
             }
         }
+
+        public bool Excluir(int id)
+        {
+            using (var db = ConnectionFactories.ConnectionFactory.GetConnection())
+            {
+                string sql = "DELETE FROM Modelo WHERE Id = @Id";
+
+                return db.Execute(sql, new { Id = id }) > 0;
+            }
+        }
     }
 }

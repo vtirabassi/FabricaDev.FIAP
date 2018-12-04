@@ -75,6 +75,23 @@ $().ready(function () {
         language: 'pt-BR'
     });
     $('#Cnpj').inputmask('99.999.999/9999-99');
+
+    $('#body').on('click', '#excluirModelo', function () {
+        let id = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: `/Modelo/Excluir?id=${id}`,
+            success: function (data) {
+
+                //$("#modalListarModelos").remove();
+                //$("body").append(data);
+                //$("#modalListarModelos").modal('show');
+            },
+            error: function (data) {
+                alert("Erro ao listar");
+            }
+        })
+    });
 });
 
 

@@ -8,6 +8,8 @@
     [Descricao] VARCHAR(50) NULL, 
     [Combustivel] INT NULL, 
     [Renavam] INT NOT NULL, 
+    [ModeloId] INT NOT NULL, 
     CONSTRAINT [FK_Carro_Documento] FOREIGN KEY (Renavam) REFERENCES Documento(Renavam), 
-    CONSTRAINT [FK_Carro_Marca] FOREIGN KEY (MarcaId) REFERENCES Marca(Id),
+    CONSTRAINT [FK_Carro_Marca] FOREIGN KEY (MarcaId) REFERENCES Marca(Id), 
+    CONSTRAINT [FK_Carro_Modelo] FOREIGN KEY (ModeloId) REFERENCES Modelo(Id),
 )

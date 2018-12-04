@@ -74,7 +74,7 @@
                 type: "GET", success: function (data) {
                     $("#modelos").empty();
                     $.each(data, function (index, modelo) {
-                        var linha = $("<option>").text(modelo.Nome).val(modelo.id);
+                        var linha = $("<option>").text(modelo.Nome).val(modelo.Id);
                         $("#modelos").append(linha);
                     });
                 }

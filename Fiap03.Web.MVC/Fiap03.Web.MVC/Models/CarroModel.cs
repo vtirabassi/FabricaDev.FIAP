@@ -33,7 +33,7 @@ namespace Fiap03.Web.MVC.Models
         //FK
         public DocumentoModel Documento { get; set; }
 
-        public int Renavam { get; set; }
+        public int ModeloId { get; set; }
 
 
         public CarroModel(CarroMOD carro)
@@ -45,9 +45,9 @@ namespace Fiap03.Web.MVC.Models
             Placa = carro.Placa;
             Descricao = carro.Descricao;
             Combustivel = carro.Combustivel;
+            ModeloId = carro.ModeloId;
             if (carro.Documento != null)
                 Documento = new DocumentoModel(carro.Documento);
-            Renavam = carro.Renavam;
         }
 
         public CarroModel() { }

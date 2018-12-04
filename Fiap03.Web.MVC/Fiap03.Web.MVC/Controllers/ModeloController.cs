@@ -32,5 +32,17 @@ namespace Fiap03.Web.MVC.Controllers
             var modelos = _modeloRepositorio.Listar(marcaId);
             return PartialView("ModalModelos", modelos.Select(m => new ModeloModel(m)).ToList());
         }
+
+        [HttpPost]
+        public ActionResult Excluir(int id)
+        {
+
+            var excluiu = _modeloRepositorio.Excluir(id);
+            if (excluiu != true)
+                TempData["msgApagar"] = "Erro ao excluir";
+            TempData["msgApagar"] = "Carro excluido";
+
+            return RedirectToAction("Listar", "Marca");
+        }
     }
 }

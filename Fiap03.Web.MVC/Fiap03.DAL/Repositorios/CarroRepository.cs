@@ -39,7 +39,7 @@ namespace Fiap03.DAL.Repositorios
 
                     db.Execute(sql, carro.Documento);
 
-                    string sql2 = "INSERT INTO Carro VALUES (@MarcaId, @Ano, @Esportivo, @Placa, @Descricao, @Combustivel, @Renavam); SELECT CAST(SCOPE_IDENTITY() as int)";
+                    string sql2 = "INSERT INTO Carro VALUES (@MarcaId, @Ano, @Esportivo, @Placa, @Descricao, @Combustivel, @Renavam, @ModeloId); SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     carro.Renavam = carro.Documento.Renavam;
                     int id = db.Query<int>(sql2, carro).Single();
