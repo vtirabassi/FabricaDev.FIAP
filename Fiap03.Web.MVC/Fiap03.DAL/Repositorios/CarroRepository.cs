@@ -35,7 +35,7 @@ namespace Fiap03.DAL.Repositorios
             {
                 using (var txScope = new TransactionScope())
                 {
-                    string sql = "INSERT INTO Documento VALUES(@Renavam, @Categoria, @DataFabricacao)";
+                    string sql = "INSERT INTO Documento VALUES(@Renavam, @DataFabricacao, @Categoria)";
 
                     db.Execute(sql, carro.Documento);
 
@@ -43,6 +43,7 @@ namespace Fiap03.DAL.Repositorios
 
                     carro.Renavam = carro.Documento.Renavam;
                     int id = db.Query<int>(sql2, carro).Single();
+                    carro.Id = id;
 
                     txScope.Complete();
                 }
@@ -63,8 +64,8 @@ namespace Fiap03.DAL.Repositorios
 
                     carro.Renavam = carro.Documento.Renavam;
 
-                    txScope.Complete();
                     return db.Execute(sql2, carro) > 0;
+                    txScope.Complete();
                 }
             }
         }

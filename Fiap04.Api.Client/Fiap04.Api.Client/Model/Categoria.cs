@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fiap03.DAL
+namespace Fiap04.Api.Client.Model
 {
-    public class Class1
+    public enum Categoria
     {
+        Hatch,
+        Sedan,
+        SUV,
+        Pickup
     }
 }

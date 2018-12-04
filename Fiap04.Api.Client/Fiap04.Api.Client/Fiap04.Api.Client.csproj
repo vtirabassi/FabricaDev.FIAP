@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8E599A36-D0C5-4839-9EA9-872C62ECA4E2}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fiap03.DAL</RootNamespace>
-    <AssemblyName>Fiap03.DAL</AssemblyName>
+    <ProjectGuid>{A86892C9-CFD0-47CE-912F-EB7DBEC1B6DB}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Fiap04.Api.Client</RootNamespace>
+    <AssemblyName>Fiap04.Api.Client</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,13 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Transactions" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,22 +48,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionFactories\ConnectionFactory.cs" />
-    <Compile Include="Repositorios\CarroRepository.cs" />
-    <Compile Include="Repositorios\Interfaces\ICarroRepository.cs" />
-    <Compile Include="Repositorios\Interfaces\IMarcaRepository.cs" />
+    <Compile Include="DAL\CarroRepository.cs" />
+    <Compile Include="DAL\Interface\ICarroRespository.cs" />
+    <Compile Include="Model\CarroModel.cs" />
+    <Compile Include="Model\Categoria.cs" />
+    <Compile Include="Model\Combustivel.cs" />
+    <Compile Include="Model\DocumentoModel.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositorios\Interfaces\IModeloRepository.cs" />
-    <Compile Include="Repositorios\MarcaRepository.cs" />
-    <Compile Include="Repositorios\ModeloRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fiap03.MOD\Fiap03.MOD.csproj">
-      <Project>{457b87ba-e311-4b98-9736-0ad4a544e548}</Project>
-      <Name>Fiap03.MOD</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
