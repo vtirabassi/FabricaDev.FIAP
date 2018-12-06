@@ -257,6 +257,7 @@
     <Content Include="Views\Marca\ListarCarrosAtrelados.cshtml" />
     <Content Include="Views\Modelo\ModalModelos.cshtml" />
     <Content Include="Views\Carro\_PartialBuscar.cshtml" />
+    <Content Include="Views\Modelo\_PartialTabelaModelo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

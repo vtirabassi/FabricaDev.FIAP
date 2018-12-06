@@ -13,6 +13,7 @@ namespace Fiap03.Web.MVC.Controllers
     public class ModeloController : Controller
     {
         IModeloRepository _modeloRepositorio = new ModeloRepository();
+        ICarroRepository _carroRepositorio = new CarroRepository();
 
         [HttpPost]
         public ActionResult Cadastrar(ModeloMOD modelo)
@@ -22,7 +23,7 @@ namespace Fiap03.Web.MVC.Controllers
                 Nome = modelo.Nome,
                 MarcaId = modelo.MarcaId
             });
-            return RedirectToAction("Listar", "Marca");
+            return PartialView("Listar", "Marca");
         }
 
         [HttpGet]
@@ -34,15 +35,29 @@ namespace Fiap03.Web.MVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Excluir(int id)
+        public ActionResult Excluir(int id, int marcaId)
         {
+            var verificaCarroModelo = _carroRepositorio.VerificaCarroModelo(id);
+            if (verificaCarroModelo == true)
+            {
+                TempData["msgApagar"] = "Erro ao excluir, devido existir um carro com essa marca.";
+                var modelos = _modeloRepositorio.Listar(marcaId);
+                return PartialView("_PartialTabelaModelo", modelos.Select(m => new ModeloModel(m)).ToList());
+            }
 
-            var excluiu = _modeloRepositorio.Excluir(id);
-            if (excluiu != true)
-                TempData["msgApagar"] = "Erro ao excluir";
-            TempData["msgApagar"] = "Carro excluido";
+            try
+            {
+                _modeloRepositorio.Excluir(id);
+                var modelos = _modeloRepositorio.Listar(marcaId);
+                return PartialView("_PartialTabelaModelo", modelos.Select(m => new ModeloModel(m)).ToList());
+            }
+            catch
+            {
+                TempData["msgApagar"] = "Erro ao excluir.";
+                var modelos = _modeloRepositorio.Listar(marcaId);
+                return PartialView("_PartialTabelaModelo", modelos.Select(m => new ModeloModel(m)).ToList());
+            }
 
-            return RedirectToAction("Listar", "Marca");
         }
     }
 }

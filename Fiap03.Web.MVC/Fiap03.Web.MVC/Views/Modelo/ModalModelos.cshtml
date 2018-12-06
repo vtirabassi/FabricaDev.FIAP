@@ -8,32 +8,13 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="row" style="padding:15px; justify-content:center;">
-                <div class="col-5">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var m in Model)
-                            {
-                                <tr>
-                                    <td>@m.Nome</td>
-                                    <td>
-                                        <button id="excluirModelo" value="@m.Id" type="button" class="btn btn-outline-danger">
-                                            Excluir
-                                        </button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                <div class="col-5" id="tableModelos">
+                    @Html.Partial("_PartialTabelaModelo", Model)
                 </div>
                 <div class="col-5">
                     @using (Html.BeginForm("Cadastrar", "Modelo"))
                     {
-                        <input name="MarcaId" value="@TempData["MarcaId"]" type="hidden" />
+                        <input name="MarcaId" id="MarcaId" value="@TempData["MarcaId"]" type="hidden" />
 
                         <br />
                         <div class="form-group">

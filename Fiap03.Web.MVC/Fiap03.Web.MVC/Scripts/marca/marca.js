@@ -76,13 +76,17 @@ $().ready(function () {
     });
     $('#Cnpj').inputmask('99.999.999/9999-99');
 
-    $('#body').on('click', '#excluirModelo', function () {
-        let id = $(this).val();
+    
+    $('body').on("click", 'button[data-id="excluirModelo"]', function () {
+        let id = $(this).data('codigo');
+        let marcaId = $("#MarcaId").val();
         $.ajax({
             type: "POST",
-            url: `/Modelo/Excluir?id=${id}`,
+            url: `/Modelo/Excluir?id=${id}&marcaId=${marcaId}`,
             success: function (data) {
-
+                $('#tableModelos').html(data);
+                //var tr = id.parentElement.parentElement
+                //tr.remove();
                 //$("#modalListarModelos").remove();
                 //$("body").append(data);
                 //$("#modalListarModelos").modal('show');

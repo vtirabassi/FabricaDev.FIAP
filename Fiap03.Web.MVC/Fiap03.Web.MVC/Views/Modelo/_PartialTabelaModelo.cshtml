@@ -1,0 +1,25 @@
+﻿@model IList<Fiap03.Web.MVC.Models.ModeloModel>
+
+
+@Fabrica.Mensagem(TempData["msgApagar"])
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>@m.Nome</td>
+                <td>
+                    <button data-codigo="@m.Id" data-id="excluirModelo" type="button" class="btn btn-outline-danger">
+                        Excluir
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

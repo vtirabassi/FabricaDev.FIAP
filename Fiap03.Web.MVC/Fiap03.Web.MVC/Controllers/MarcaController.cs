@@ -103,7 +103,8 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public ActionResult ListarCarrosAtrelados(int id)
         {
-            return PartialView(_marcaRepositor.ListarCarrosAtrelados(id).Select(c => new CarroModel(c)).ToList());
+            var ca = _marcaRepositor.ListarCarrosAtrelados(id).Select(c => new CarroModel(c)).ToList();
+            return PartialView(ca);
         }
     }
 }

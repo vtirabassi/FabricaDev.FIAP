@@ -41,13 +41,13 @@ namespace Fiap03.DAL.Repositorios
             }
         }
 
-        public bool Excluir(int id)
+        public void Excluir(int id)
         {
             using (var db = ConnectionFactories.ConnectionFactory.GetConnection())
             {
                 string sql = "DELETE FROM Modelo WHERE Id = @Id";
 
-                return db.Execute(sql, new { Id = id }) > 0;
+                db.Execute(sql, new { Id = id });
             }
         }
     }

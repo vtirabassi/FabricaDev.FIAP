@@ -124,5 +124,18 @@ namespace Fiap03.DAL.Repositorios
                 return false;
             }
         }
+
+        public bool VerificaCarroModelo(int id)
+        {
+            using (var db = ConnectionFactories.ConnectionFactory.GetConnection())
+            {
+                string sql = @"SELECT * FROM Carro WHERE ModeloId = @Id";
+
+                var existe = db.QueryFirstOrDefault(sql, new { Id = id });
+                if (existe != null)
+                    return true;
+                return false;
+            }
+        }
     }
 }
