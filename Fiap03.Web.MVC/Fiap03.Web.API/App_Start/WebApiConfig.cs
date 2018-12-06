@@ -9,6 +9,10 @@ namespace Fiap03.Web.API
     {
         public static void Register(HttpConfiguration config)
         {
+
+            //Habiliar o CORS - requisicao js de outro host
+            config.EnableCors();
+
             // Web API configuration and services
 
             // Web API routes

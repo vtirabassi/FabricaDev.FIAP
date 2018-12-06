@@ -220,6 +220,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CarroController.cs" />
+    <Compile Include="Controllers\ErroController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MarcaController.cs" />
     <Compile Include="Controllers\ModeloController.cs" />
@@ -258,6 +259,8 @@
     <Content Include="Views\Modelo\ModalModelos.cshtml" />
     <Content Include="Views\Carro\_PartialBuscar.cshtml" />
     <Content Include="Views\Modelo\_PartialTabelaModelo.cshtml" />
+    <Content Include="Views\Erro\Padrao.cshtml" />
+    <Content Include="Views\Erro\NaoEncontrado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

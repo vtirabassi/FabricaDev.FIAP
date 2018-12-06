@@ -18,7 +18,16 @@ namespace Fiap04.Api.Client.DAL
 
         public void Cadastrar(CarroModel carro)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:22345/");
+                var resp = client.PostAsJsonAsync("api/carro", carro).Result;
+
+                if (!resp.IsSuccessStatusCode)
+                {
+                    throw new Exception("Erro ao cadastrar");
+                }
+            }
         }
 
         public bool Editar(CarroModel carro)
@@ -28,7 +37,11 @@ namespace Fiap04.Api.Client.DAL
 
         public void Excluir(int codigo)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:22345/");
+                var resp = client.DeleteAsync("api")
+            }
         }
 
         public IList<CarroModel> Listar()

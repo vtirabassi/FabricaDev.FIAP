@@ -6,9 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Fiap03.Web.API.Controllers
 {
+    [EnableCors(origins:"*",headers:"*",methods:"*")]
     public class CarroController : ApiController
     {
         private ICarroRepository _rep = new CarroRepository();
