@@ -14,7 +14,7 @@ using System.Web.Mvc;
 
 namespace Fiap03.Web.MVC.Controllers
 {
-
+    [Authorize]
     public class MarcaController : Controller
     {
 

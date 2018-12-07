@@ -21,12 +21,10 @@ namespace Fiap03.DAL.Test
                 DataCriacao = new DateTime(2010, 1, 19)
             };
 
-            var result = (ViewResult) controller.Cadastrar(marca);
-            Assert.IsNotNull(result);
+            controller.Cadastrar(marca);
 
-            var modelResultado = result.Model as MarcaModel;
-            Assert.AreEqual(modelResultado.Mensagem, 
-                "Cliente Cadastrado com sucesso!");
+            Assert.AreEqual(controller.TempData["msg"],
+                "Marca criada");
 
         }
     }
